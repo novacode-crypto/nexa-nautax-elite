@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "NEXA NautaX",
+    "message": "NEXA NautaX Elite",
     "description": "Nombre de la extensión"
   },
   "extShortName": {
-    "message": "NautaX",
+    "message": "NautaX Elite",
     "description": "Nombre corto de la extensión"
   },
   "extDescription": {
