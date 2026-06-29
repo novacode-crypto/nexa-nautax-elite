@@ -1,0 +1,10 @@
+/* NEXA NautaX — Themes barrel
+ * Importa todos los temas.
+ * El orden importa: tokens primero, luego variaciones.
+ */
+
+@import './tokens.css';
+@import './dark.css';
+@import './light.css';
+@import './nebula.css';
+@import './aurora.css';

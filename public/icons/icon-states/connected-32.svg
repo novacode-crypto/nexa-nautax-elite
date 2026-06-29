@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="icon-connected-32-bg" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10b981"/>
+      <stop offset="0.5" stop-color="#059669"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="icon-connected-32-shine" x1="0" y1="0" x2="0" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="rgba(255,255,255,0.3)"/>
+      <stop offset="0.5" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#icon-connected-32-bg)"/>
+  <rect width="128" height="64" rx="28" fill="url(#icon-connected-32-shine)"/>
+  <path d="M36 92V36h10l36 38V36h10v56H82L46 54v38H36z" fill="white" fill-opacity="0.95"/>
+</svg>

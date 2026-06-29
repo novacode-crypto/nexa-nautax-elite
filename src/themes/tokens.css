@@ -1,0 +1,105 @@
+/* NEXA NautaX — Base design tokens (comunes a todos los temas)
+ * Fase 3 — Design System, Doc 1
+ *
+ * Los tokens específicos de color/tema están en:
+ *   dark.css, light.css, nebula.css, aurora.css
+ */
+
+:root {
+  /* —— Escala tipográfica ——————————————————————————————————— */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+
+  /* —— Line-height ———————————————————————————————————————— */
+  --leading-xs: 1rem;
+  --leading-sm: 1.25rem;
+  --leading-base: 1.5rem;
+  --leading-lg: 1.75rem;
+  --leading-xl: 2rem;
+  --leading-2xl: 2.25rem;
+  --leading-3xl: 2.5rem;
+
+  /* —— Font-weight ———————————————————————————————————————— */
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* —— Letter-spacing ————————————————————————————————————— */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* —— Espaciado —————————————————————————————————————————— */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0\.5: 2px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* —— Border-radius ————————————————————————————————————— */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* —— Border-width —————————————————————————————————————— */
+  --border-hairline: 1px;
+  --border-thin: 1px;
+  --border-thick: 2px;
+
+  /* —— Z-index ——————————————————————————————————————————— */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-banner: 1200;
+  --z-overlay: 1300;
+  --z-modal: 1400;
+  --z-toast: 1500;
+  --z-tooltip: 1600;
+
+  /* —— Durations ————————————————————————————————————————— */
+  --duration-pulse: 1.5s;
+  --duration-spin: 1s;
+
+  /* —— Transitions ——————————————————————————————————————— */
+  --transition-fast: 100ms ease-out;
+  --transition-default: 150ms ease-out;
+  --transition-slow: 250ms ease-out;
+  --transition-slower: 400ms ease-out;
+
+  /* —— Dimensión popup ———————————————————————————————————— */
+  --popup-width: 400px;
+  --popup-height: 600px;
+  --popup-header-height: 48px;
+  --popup-footer-height: 40px;
+
+  /* —— Layout sidepanel —————————————————————————————————— */
+  --sidepanel-header-height: 56px;
+  --sidepanel-footer-height: 40px;
+  --sidepanel-nav-width: 64px;
+
+  /* —— Shadows y glows se definen por tema (no aquí) ————————— */
+  /* --shadow-sm, --shadow-md, --shadow-lg, --shadow-glow */
+  /* --glow-opacity */
+  /* --titlebar-bg, --sidebar-bg, --console-bg, --console-fg */
+}

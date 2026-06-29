@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="icon-no-account-128-bg" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#71717a"/>
+      <stop offset="0.5" stop-color="#52525b"/>
+      <stop offset="1" stop-color="#a1a1aa"/>
+    </linearGradient>
+    <linearGradient id="icon-no-account-128-shine" x1="0" y1="0" x2="0" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="rgba(255,255,255,0.3)"/>
+      <stop offset="0.5" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#icon-no-account-128-bg)"/>
+  <rect width="128" height="64" rx="28" fill="url(#icon-no-account-128-shine)"/>
+  <path d="M36 92V36h10l36 38V36h10v56H82L46 54v38H36z" fill="white" fill-opacity="0.95"/>
+</svg>

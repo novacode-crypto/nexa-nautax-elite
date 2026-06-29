@@ -1,0 +1,97 @@
+/* NEXA NautaX — @font-face declarations
+ *
+ * Fuentes autohospedadas (regla NEXA — sin Google Fonts CDN).
+ *
+ * Archivos:
+ *   public/fonts/dnsans/        → DM Sans (Regular, Medium, SemiBold)
+ *   public/fonts/syne/           → Syne (SemiBold, Bold, ExtraBold)
+ *   public/fonts/jetbrainsmono/  → JetBrainsMono (Regular, Medium)
+ */
+
+/* ════════════════════════════════════════════════════════════════ */
+/* DM Sans — interfaz general, body, UI                             */
+/* Alias "DNSans" para mantener compatibilidad con código existente */
+/* ════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: 'DNSans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/dnsans/DMSans-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DNSans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/dnsans/DMSans-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DNSans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/dnsans/DMSans-SemiBold.woff2') format('woff2');
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* Syne — branding, títulos principales, identidad visual NEXA     */
+/* Pesos: SemiBold (600), Bold (700), ExtraBold (800)              */
+/* ════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/syne/Syne-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/syne/Syne-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/syne/Syne-ExtraBold.woff2') format('woff2');
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* JetBrainsMono — Developer Mode, logs, info técnica              */
+/* Pesos: Regular (400), Medium (500)                              */
+/* ════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/jetbrainsmono/JetBrainsMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/jetbrainsmono/JetBrainsMono-Medium.woff2') format('woff2');
+}
+
+/* Bold fallback (si necesitas bold en mono, usa fallback del sistema) */
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/jetbrainsmono/JetBrainsMono-Medium.woff2') format('woff2');
+}

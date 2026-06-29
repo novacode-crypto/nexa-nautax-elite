@@ -1,0 +1,110 @@
+/* NEXA NautaX — Light theme — "Claro"
+ * Inspiración: Apple. Blanco limpio con profundidad.
+ */
+
+:root[data-theme='claro'],
+:root[data-theme='light'] {
+  /* ═══ User Theme Variables (verbatim) ═══════════════════════════ */
+  --bg: #fafafa;
+  --bg-elevated: #ffffff;
+  --bg-elevated-2: #f4f4f5;
+  --bg-elevated-3: #e4e4e7;
+  --border: #e4e4e7;
+  --border-hover: #d4d4d8;
+  --fg: #18181b;
+  --fg-muted: #71717a;
+  --fg-dim: #a1a1aa;
+  --accent: #7c3aed;
+  --accent-hover: #6d28d9;
+  --accent-soft: rgba(124, 58, 237, 0.08);
+  --success: #059669;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --info: #0891b2;
+  --titlebar-bg: #f4f4f5;
+  --sidebar-bg: #ffffff;
+  --console-bg: #1e1e1e;
+  --console-fg: #4ade80;
+  --glow-opacity: 0.2;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 24px rgba(124, 58, 237, 0.15);
+
+  /* ═══ NEXA Compatibility Aliases ════════════════════════════════ */
+  --background: var(--bg);
+  --background-elevated: var(--bg-elevated);
+  --background-elevated-2: var(--bg-elevated-2);
+  --background-elevated-3: var(--bg-elevated-3);
+
+  --foreground: var(--fg);
+  --foreground-muted: var(--fg-muted);
+  --foreground-subtle: var(--fg-dim);
+
+  --primary: var(--accent);
+  --primary-foreground: #ffffff;
+  --primary-hover: var(--accent-hover);
+  --primary-active: var(--accent);
+  --primary-soft: var(--accent-soft);
+
+  --accent-foreground: #ffffff;
+
+  --secondary: rgba(244, 244, 245, 0.7);
+  --secondary-foreground: var(--fg);
+
+  --border-strong: var(--border-hover);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  --border-gradient: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.08) 0%,
+    rgba(0, 0, 0, 0.02) 100%
+  );
+
+  --card: rgba(255, 255, 255, 0.7);
+  --card-solid: var(--bg-elevated);
+  --card-foreground: var(--fg);
+  --card-hover: rgba(255, 255, 255, 0.9);
+  --card-border: var(--border);
+  --card-shadow: var(--shadow-sm), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  --card-shadow-hover: var(--shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.04);
+
+  --muted: rgba(244, 244, 245, 0.6);
+  --muted-foreground: var(--fg-muted);
+
+  --background-glass: rgba(255, 255, 255, 0.7);
+  --background-glass-strong: rgba(255, 255, 255, 0.9);
+  --background-gradient: radial-gradient(
+      ellipse 80% 60% at 100% 0%,
+      rgba(124, 58, 237, 0.06) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 0% 100%,
+      rgba(109, 40, 217, 0.04) 0%,
+      transparent 50%
+    ),
+    var(--bg);
+
+  --success: #059669;
+  --warning: #d97706;
+  --error: var(--danger);
+  --info: #0891b2;
+
+  --focus-ring: rgba(124, 58, 237, 0.4);
+
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+
+  --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
+  --gradient-text-primary: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #9333ea 100%);
+  --gradient-text-accent: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+
+  --glow-primary: 0 0 24px rgba(124, 58, 237, 0.25);
+  --glow-accent: 0 0 16px rgba(124, 58, 237, 0.25);
+  --glow-success: 0 0 12px rgba(5, 150, 105, 0.3);
+  --glow-warning: 0 0 12px rgba(217, 119, 6, 0.3);
+  --glow-error: 0 0 12px rgba(220, 38, 38, 0.3);
+  --glow-info: 0 0 12px rgba(8, 145, 178, 0.3);
+  --primary-glow: rgba(124, 58, 237, 0.35);
+  --primary-glow-strong: rgba(124, 58, 237, 0.5);
+}

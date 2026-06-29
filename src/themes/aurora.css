@@ -1,0 +1,114 @@
+/* NEXA NautaX — Aurora theme — Premium edition
+ * Inspirado en el cielo al amanecer en Escandinavia:
+ *  - Fondos blanco-perla con tinte sutilmente cálido
+ *  - Acento coral/salmón (color del sol bajo en el horizonte)
+ *  - Detalles en verde menta (aurora boreal)
+ *  - Info en azul hielo
+ */
+
+:root[data-theme='aurora'] {
+  /* ═══ User Theme Variables (verbatim) ═══════════════════════════ */
+  --bg: #fbf9f6;
+  --bg-elevated: #ffffff;
+  --bg-elevated-2: #f5f1ec;
+  --bg-elevated-3: #ede7df;
+  --border: #e5ddd2;
+  --border-hover: #d4c9b8;
+  --fg: #2d2419;
+  --fg-muted: #7a6b58;
+  --fg-dim: #a89a85;
+  --accent: #e97451;
+  --accent-hover: #d55e3a;
+  --accent-soft: rgba(233, 116, 81, 0.1);
+  --success: #4fb286;
+  --warning: #e8a33d;
+  --danger: #d14848;
+  --info: #5b9bd5;
+  --titlebar-bg: #fbf9f6;
+  --sidebar-bg: #f5f1ec;
+  --console-bg: #1f1b16;
+  --console-fg: #f5c26b;
+  --glow-opacity: 0.25;
+  --shadow-sm: 0 1px 2px rgba(122, 107, 88, 0.08);
+  --shadow-md: 0 4px 12px rgba(122, 107, 88, 0.1);
+  --shadow-lg: 0 8px 24px rgba(122, 107, 88, 0.14);
+  --shadow-glow: 0 0 24px rgba(233, 116, 81, 0.2);
+
+  /* ═══ NEXA Compatibility Aliases ════════════════════════════════ */
+  --background: var(--bg);
+  --background-elevated: var(--bg-elevated);
+  --background-elevated-2: var(--bg-elevated-2);
+  --background-elevated-3: var(--bg-elevated-3);
+
+  --foreground: var(--fg);
+  --foreground-muted: var(--fg-muted);
+  --foreground-subtle: var(--fg-dim);
+
+  --primary: var(--accent);
+  --primary-foreground: #ffffff;
+  --primary-hover: var(--accent-hover);
+  --primary-active: var(--accent);
+  --primary-soft: var(--accent-soft);
+
+  --accent-foreground: #ffffff;
+
+  --secondary: rgba(245, 241, 236, 0.7);
+  --secondary-foreground: var(--fg);
+
+  --border-strong: var(--border-hover);
+  --border-subtle: rgba(122, 107, 88, 0.05);
+  --border-gradient: linear-gradient(
+    135deg,
+    rgba(233, 116, 81, 0.15) 0%,
+    rgba(79, 178, 134, 0.05) 100%
+  );
+
+  --card: rgba(255, 255, 255, 0.65);
+  --card-solid: var(--bg-elevated);
+  --card-foreground: var(--fg);
+  --card-hover: rgba(255, 255, 255, 0.85);
+  --card-border: var(--border);
+  --card-shadow: var(--shadow-sm), 0 0 0 1px rgba(122, 107, 88, 0.03);
+  --card-shadow-hover: var(--shadow-lg), 0 0 0 1px rgba(233, 116, 81, 0.1);
+
+  --muted: rgba(245, 241, 236, 0.6);
+  --muted-foreground: var(--fg-muted);
+
+  --background-glass: rgba(255, 255, 255, 0.65);
+  --background-glass-strong: rgba(255, 255, 255, 0.85);
+  --background-gradient: radial-gradient(
+      ellipse 80% 60% at 100% 0%,
+      rgba(233, 116, 81, 0.08) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 0% 100%,
+      rgba(79, 178, 134, 0.05) 0%,
+      transparent 50%
+    ),
+    var(--bg);
+
+  --success: #4fb286;
+  --warning: #e8a33d;
+  --error: var(--danger);
+  --info: #5b9bd5;
+
+  --focus-ring: rgba(233, 116, 81, 0.4);
+
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+
+  /* Aurora gradient: coral → menta (aurora boreal) */
+  --primary-gradient: linear-gradient(135deg, #e97451 0%, #f0a868 50%, #4fb286 100%);
+  --gradient-text-primary: linear-gradient(135deg, #e97451 0%, #f0a868 50%, #4fb286 100%);
+  --gradient-text-accent: linear-gradient(135deg, #e97451 0%, #5b9bd5 100%);
+
+  --glow-primary: 0 0 24px rgba(233, 116, 81, 0.3);
+  --glow-accent: 0 0 16px rgba(79, 178, 134, 0.3);
+  --glow-success: 0 0 12px rgba(79, 178, 134, 0.4);
+  --glow-warning: 0 0 12px rgba(232, 163, 61, 0.4);
+  --glow-error: 0 0 12px rgba(209, 72, 72, 0.4);
+  --glow-info: 0 0 12px rgba(91, 155, 213, 0.4);
+  --primary-glow: rgba(233, 116, 81, 0.3);
+  --primary-glow-strong: rgba(233, 116, 81, 0.5);
+}

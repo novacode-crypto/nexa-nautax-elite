@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "NEXA NautaX",
+    "description": "Nombre de la extensión"
+  },
+  "extShortName": {
+    "message": "NautaX",
+    "description": "Nombre corto de la extensión"
+  },
+  "extDescription": {
+    "message": "Administración premium de cuentas Nauta ETECSA",
+    "description": "Descripción de la extensión"
+  }
+}

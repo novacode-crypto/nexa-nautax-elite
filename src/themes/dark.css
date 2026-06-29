@@ -1,0 +1,126 @@
+/* NEXA NautaX — Dark theme (default) — "Oscuro"
+ * Inspiración: Linear + Vercel. Profundidad, glass, glow sutil.
+ *
+ * User variables (source of truth) + NEXA compatibility aliases.
+ */
+
+:root[data-theme='oscuro'],
+:root[data-theme='dark'] {
+  /* ═══ User Theme Variables (verbatim) ═══════════════════════════ */
+  --bg: #09090b;
+  --bg-elevated: #111113;
+  --bg-elevated-2: #1a1a1f;
+  --bg-elevated-3: #24242b;
+  --border: #27272e;
+  --border-hover: #3f3f4a;
+  --fg: #fafafa;
+  --fg-muted: #a1a1aa;
+  --fg-dim: #71717a;
+  --accent: #8b5cf6;
+  --accent-hover: #a78bfa;
+  --accent-soft: rgba(139, 92, 246, 0.12);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #22d3ee;
+  --titlebar-bg: #09090b;
+  --sidebar-bg: #0c0c0f;
+  --console-bg: #050507;
+  --console-fg: #4ade80;
+  --glow-opacity: 0.35;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 24px rgba(139, 92, 246, 0.25);
+
+  /* ═══ NEXA Compatibility Aliases ════════════════════════════════ */
+  /* Estos nombres son los que consumen los componentes NEXA existentes. */
+  /* Si cambias algo arriba, automáticamente se refleja aquí. */
+
+  --background: var(--bg);
+  --background-elevated: var(--bg-elevated);
+  --background-elevated-2: var(--bg-elevated-2);
+  --background-elevated-3: var(--bg-elevated-3);
+
+  --foreground: var(--fg);
+  --foreground-muted: var(--fg-muted);
+  --foreground-subtle: var(--fg-dim);
+
+  /* Primary = accent del usuario (su color principal) */
+  --primary: var(--accent);
+  --primary-foreground: #ffffff;
+  --primary-hover: var(--accent-hover);
+  --primary-active: var(--accent);
+  --primary-soft: var(--accent-soft);
+
+  /* Accent (alias directo del accent del usuario) */
+  --accent-foreground: #09090b;
+
+  --secondary: rgba(36, 36, 43, 0.6);
+  --secondary-foreground: var(--fg);
+
+  /* Borders */
+  --border-strong: var(--border-hover);
+  --border-subtle: rgba(255, 255, 255, 0.03);
+  --border-gradient: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+
+  /* Cards */
+  --card: rgba(17, 17, 19, 0.5);
+  --card-solid: var(--bg-elevated);
+  --card-foreground: var(--fg);
+  --card-hover: rgba(26, 26, 31, 0.7);
+  --card-border: var(--border);
+  --card-shadow: var(--shadow-sm), 0 0 0 1px rgba(255, 255, 255, 0.02);
+  --card-shadow-hover: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* Muted */
+  --muted: rgba(36, 36, 43, 0.5);
+  --muted-foreground: var(--fg-muted);
+
+  /* Backgrounds premium */
+  --background-glass: rgba(17, 17, 19, 0.6);
+  --background-glass-strong: rgba(26, 26, 31, 0.85);
+  --background-gradient: radial-gradient(
+      ellipse 80% 60% at 100% 0%,
+      rgba(139, 92, 246, 0.08) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 0% 100%,
+      rgba(167, 139, 250, 0.06) 0%,
+      transparent 50%
+    ),
+    var(--bg);
+
+  /* Estado */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: var(--danger);
+  --info: #22d3ee;
+
+  /* Focus */
+  --focus-ring: rgba(139, 92, 246, 0.5);
+
+  /* Destructive */
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+
+  /* Gradients (derivados del accent) */
+  --primary-gradient: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%);
+  --gradient-text-primary: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 50%, #ddd6fe 100%);
+  --gradient-text-accent: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+
+  /* Glows (basados en --glow-opacity) */
+  --glow-primary: 0 0 24px rgba(139, 92, 246, 0.4);
+  --glow-accent: 0 0 16px rgba(167, 139, 250, 0.4);
+  --glow-success: 0 0 12px rgba(16, 185, 129, 0.5);
+  --glow-warning: 0 0 12px rgba(245, 158, 11, 0.5);
+  --glow-error: 0 0 12px rgba(239, 68, 68, 0.5);
+  --glow-info: 0 0 12px rgba(34, 211, 238, 0.5);
+  --primary-glow: rgba(139, 92, 246, 0.45);
+  --primary-glow-strong: rgba(139, 92, 246, 0.65);
+}
