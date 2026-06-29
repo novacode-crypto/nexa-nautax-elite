@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — ETECSA Connector Interface
- * Fase 1 — Doc 2 §2.6
+ *  — Doc 2 §2.6
  *
  * La única frontera entre NEXA NautaX y ETECSA.
  * Implementaciones: EtecsaConnector (real), MockEtecsaConnector (tests).

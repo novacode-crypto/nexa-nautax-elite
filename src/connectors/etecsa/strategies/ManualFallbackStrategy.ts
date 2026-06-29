@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — ManualFallbackStrategy
- * Fase 1 — Doc 2 §3.5
+ *  — Doc 2 §3.5
  *
  * Si todas las strategies automáticas fallan, esta strategy retorna
  * un error tipado que la UI interpreta como "operación manual requerida".

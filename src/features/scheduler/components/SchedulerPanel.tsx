@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Scheduler View (SidePanel) — Premium v2
+ * NEXA NautaX — Scheduler View (SidePanel) 
  */
 
 import { Calendar, Clock, Timer } from 'lucide-react';
@@ -25,7 +25,7 @@ export function SchedulerView() {
             variant="primary"
             size="sm"
             icon={<Calendar size={14} />}
-            onClick={() => toast.info('Función disponible en Fase 7')}
+            onClick={() => toast.info('Función en desarrollo')}
           >
             Nueva
           </NexaButton>
@@ -38,7 +38,7 @@ export function SchedulerView() {
             icon={<Timer size={48} className="text-foreground-subtle" />}
             title="Sin programaciones"
             description="Programa desconexiones automáticas para no consumir saldo innecesariamente."
-            action={{ label: '+ Nueva programación', onClick: () => toast.info('Fase 7') }}
+            action={{ label: '+ Nueva programación', onClick: () => toast.info('Función en desarrollo') }}
           />
         </NexaCard>
       </StaggerItem>
@@ -55,7 +55,7 @@ export function SchedulerView() {
                 padding="md"
                 variant="interactive"
                 className="text-center"
-                onClick={() => toast.info(`Logout en ${min} min — Fase 7`)}
+                onClick={() => toast.info(`Logout en ${min} min — en desarrollo`)}
               >
                 <Clock size={20} className="mx-auto mb-2" style={{ color: 'var(--accent)' }} />
                 <p className="text-display text-lg font-semibold text-foreground">{min}</p>

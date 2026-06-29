@@ -1,6 +1,6 @@
 /**
- * NEXA NautaX — NexaButton — Premium edition
- * Fase 3 — Doc 3 §2.2
+ * NEXA NautaX — NexaButton 
+ *  — Doc 3 §2.2
  *
  * Primary con gradient + glow, micro-interacciones mejoradas.
  */

@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Connection types
- * Fase 4 — Doc 1 §12
+ *  — Doc 1 §12
  */
 
 export type ConnectionState =

@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Account Delete Dialog — v5
+ * NEXA NautaX — Account Delete Dialog 
  * + Muestra avatar de la cuenta
  */
 

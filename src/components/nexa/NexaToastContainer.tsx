@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — NexaToastContainer
- * Fase 3 — Doc 3 §2.6
+ *  — Doc 3 §2.6
  *
  * Container fijo top-right que muestra toasts activos.
  * Se suscribe al uiStore.

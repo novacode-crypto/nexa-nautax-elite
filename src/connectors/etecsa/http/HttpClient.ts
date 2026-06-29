@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — ETECSA HttpClient
- * Fase 1 — Doc 2 §4 + Fase 4 — Doc 3 §3
+ *  — Doc 2 §4 +  — Doc 3 §3
  *
  * Wrapper sobre fetch con:
  *  - Timeout configurable
@@ -230,7 +230,7 @@ export function buildLogoutBody(params: {
   readonly username: string;
   readonly loggerId: string;
 }): URLSearchParams {
-  // loggerId+username rewrite (ver Fase 1 — Doc 1 §3.4)
+  // loggerId+username rewrite (ver  — Doc 1 §3.4)
   const loggerIdWithUsername = `${params.loggerId}+${params.username}`;
   return buildFormBody({
     ATTRIBUTE_UUID: params.attributeUuid,

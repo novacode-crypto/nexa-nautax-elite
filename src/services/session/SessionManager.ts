@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — SessionManager
- * Fase 7 — Implementación real
+ *  
  *
  * Orquesta:
  *  - AccountManager (obtener cuenta, descifrar password)

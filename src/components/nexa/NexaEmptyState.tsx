@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — NexaEmptyState
- * Fase 3 — Doc 3 §2.9
+ *  — Doc 3 §2.9
  */
 
 import { type ReactNode } from 'react';

@@ -1,6 +1,6 @@
 /**
- * NEXA NautaX — NexaLogo — Premium edition
- * Fase 3 — Doc 3 §2.1
+ * NEXA NautaX — NexaLogo 
+ *  — Doc 3 §2.1
  *
  * "NEXA" con gradient text, "NautaX" sutil.
  * Icono con gradient + glow opcional.

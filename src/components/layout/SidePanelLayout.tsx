@@ -1,9 +1,5 @@
 /**
- * NEXA NautaX — SidePanelLayout — Debug v4
- *
- * Cambios v4:
- * - nav con z-index alto para tooltips encima del content
- * - overflow visible en main para tooltips no se corten
+ * NEXA NautaX — SidePanelLayout
  */
 
 import { type ReactNode } from 'react';

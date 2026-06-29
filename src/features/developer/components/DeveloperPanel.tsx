@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Developer View (SidePanel) — Fase 7 completa
+ * NEXA NautaX — Developer View (SidePanel) 
  *
  * Secciones:
  *  1. Modo Demo (toggle global)

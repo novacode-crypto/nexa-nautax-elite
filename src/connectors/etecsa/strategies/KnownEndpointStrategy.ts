@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — KnownEndpointStrategy (PRIMARY)
- * Fase 1 — Doc 2 §3.1
+ *  — Doc 2 §3.1
  *
  * Usa URLs hardcoded y selectores primarios conocidos de ETECSA.
  * Exitosa en >95% de los casos según consenso de los 11 repos investigados.

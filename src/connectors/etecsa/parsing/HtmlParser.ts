@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — HtmlParser
- * Fase 1 — Doc 2 §5
+ *  — Doc 2 §5
  *
  * Delega al OffscreenBridge para parsear HTML (el SW no tiene DOMParser).
  * Expone una API de alto nivel para cada tipo de parseo.

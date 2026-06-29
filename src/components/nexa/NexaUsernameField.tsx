@@ -1,5 +1,4 @@
 /**
- * NEXA NautaX — NexaUsernameField — Debug v6
  *
  * Mejoras v6:
  * - Tooltip via portal (no se corta nunca)

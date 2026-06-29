@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Branded types
- * Fase 4 — Doc 1 §1.3
+ *  — Doc 1 §1.3
  *
  * Estos tipos previenen bugs de refactoring (ej: pasar un AccountId donde se
  * espera un SessionId). TypeScript los trata como distintos aunque ambos sean

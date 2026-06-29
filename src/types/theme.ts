@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Theme types
- * Fase 3 — Doc 1
+ *  — Doc 1
  *
  * Nombres en español según preferencia del usuario.
  */

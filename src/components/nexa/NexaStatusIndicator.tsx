@@ -1,6 +1,6 @@
 /**
- * NEXA NautaX — NexaStatusIndicator — Premium edition
- * Fase 3 — Doc 3 §2.4
+ * NEXA NautaX — NexaStatusIndicator 
+ *  — Doc 3 §2.4
  *
  * Dots con glow, iconos con color, animación más sutil.
  */

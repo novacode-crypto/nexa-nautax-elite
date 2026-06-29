@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Account Store — Fase 7 v2
+ * NEXA NautaX — Account Store 
  *
  * Carga cuentas reales desde el SW via messageClient.
  * CRUD: create, update, remove, select.

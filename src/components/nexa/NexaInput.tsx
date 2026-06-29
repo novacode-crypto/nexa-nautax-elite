@@ -1,5 +1,4 @@
 /**
- * NEXA NautaX — NexaInput — Debug v6
  *
  * Glow effect al hover y focus.
  */

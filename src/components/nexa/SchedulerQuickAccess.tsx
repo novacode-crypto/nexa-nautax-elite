@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Scheduler Quick Access — v3
+ * NEXA NautaX — Scheduler Quick Access 
  *
  * + Dial horizontal arrastrable (drag + click)
  * + Pasos de 15 min, max 2h

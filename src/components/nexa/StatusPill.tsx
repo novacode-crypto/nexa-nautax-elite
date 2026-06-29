@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — StatusPill — v3
+ * NEXA NautaX — StatusPill 
  *
  * + El icono pulsa (no el borde)
  */

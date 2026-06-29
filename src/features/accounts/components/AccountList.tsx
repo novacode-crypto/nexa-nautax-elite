@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Accounts View (SidePanel) — Fase 7
+ * NEXA NautaX — Accounts View (SidePanel) 
  *
  * CRUD completo de cuentas:
  *  - Lista de cuentas reales desde accountStore

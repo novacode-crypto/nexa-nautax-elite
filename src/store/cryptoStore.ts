@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Crypto Store — v4
+ * NEXA NautaX — Crypto Store 
  * Auto-unlock en modo conveniente.
  */
 

@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Settings View (SidePanel) — Fase 7 v2
+ * NEXA NautaX — Settings View (SidePanel) 
  *
  * Secciones:
  *  1. Apariencia (selector de tema)

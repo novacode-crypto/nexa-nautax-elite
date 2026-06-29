@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — OnboardingFlow — v5
+ * NEXA NautaX — OnboardingFlow 
  *
  * Cifrado transparente: sin contraseña maestra, sin mode-select.
  * Flujo: welcome → setup → done.

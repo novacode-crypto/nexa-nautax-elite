@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Log sanitizer
- * Fase 2 — F2-D18
+ *  — F2-D18
  *
  * Sanitiza strings antes de loggear para evitar exponer datos sensibles.
  */

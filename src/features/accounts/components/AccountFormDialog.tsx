@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Account Form Dialog — v5
+ * NEXA NautaX — Account Form Dialog 
  *
  * Fixes:
  * - Avatar: reset file input tras eliminar para poder re-subir

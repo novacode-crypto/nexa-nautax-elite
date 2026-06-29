@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Settings Store
- * Fase 2 — Doc 1 §7.2
+ *  — Doc 1 §7.2
  *
  * Configuración global persistida en chrome.storage.local.
  * Se hidrata desde storage al montar y se sincroniza via onChanged.

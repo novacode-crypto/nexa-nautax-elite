@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Storage namespaces
- * Fase 4 — Doc 3 §1.2
+ *  — Doc 3 §1.2
  */
 
 export const NAMESPACES = {

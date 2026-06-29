@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — NexaAccountSelector — Debug v6
+ * NEXA NautaX — NexaAccountSelector — 
  *
  * Mejoras v6:
  * - Dropdown ancho completo (del padre) + más grande

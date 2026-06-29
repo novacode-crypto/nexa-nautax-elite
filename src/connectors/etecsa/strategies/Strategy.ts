@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Strategy base
- * Fase 1 — Doc 2 §3
+ *  — Doc 2 §3
  *
  * Cada strategy implementa una forma de hacer login contra ETECSA.
  * El EtecsaConnector las orquesta en orden hasta que una funcione.

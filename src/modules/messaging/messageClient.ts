@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Message Client — v2
+ * NEXA NautaX — Message Client 
  *
  * Añadido: accountUpdate
  */

@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Service Worker (background) — Fase 7 v2
+ * NEXA NautaX — Service Worker (background) 
  *
  * Añadido: ACCOUNT_UPDATE handler
  * (copia este archivo sobre el existente src/app/background/service-worker.ts)

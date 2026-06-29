@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — DiscoveredEndpointStrategy
- * Fase 1 — Doc 2 §3.2
+ *  — Doc 2 §3.2
  *
  * Si KnownEndpoint falla por parser (HTML cambió), esta strategy:
  *   1. Re-fetch del form inicial.

@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Error types
- * Fase 4 — Doc 4
+ *  — Doc 4
  */
 
 export type NexaErrorCategory =

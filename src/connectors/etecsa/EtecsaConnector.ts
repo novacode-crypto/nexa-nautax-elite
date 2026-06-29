@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — EtecsaConnector Facade
- * Fase 1 — Doc 2 §1-3
+ *  — Doc 2 §1-3
  *
  * Único punto público del connector. Orquesta:
  *  - HttpClient
@@ -119,7 +119,7 @@ export class EtecsaConnector implements IEtecsaConnector {
     session: SessionData,
     accountId: AccountId,
   ): Promise<Result<BalanceResponse, EtecsaError>> {
-    // En Fase 6, getBalance se obtiene via getSessionInfo.
+    // En , getBalance se obtiene via getSessionInfo.
     const infoResult = await this.getSessionInfo(session, accountId);
     if (!infoResult.ok) return infoResult;
     if (!infoResult.value.balance) {
@@ -151,7 +151,7 @@ export class EtecsaConnector implements IEtecsaConnector {
   async verifyCredentials(
     req: LoginRequest,
   ): Promise<Result<CredentialsVerification, EtecsaError>> {
-    // En Fase 6, verifyCredentials = login + getBalance + logout inmediato.
+    // En , verifyCredentials = login + getBalance + logout inmediato.
     // Si el login falla por credenciales, retornamos { valid: false }.
     const loginResult = await this.login(req);
     if (!loginResult.ok) {

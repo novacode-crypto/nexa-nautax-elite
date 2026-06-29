@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — ThemeProvider — v4
+ * NEXA NautaX — ThemeProvider 
  * Tema oscuro aplicado inmediatamente al montar.
  */
 

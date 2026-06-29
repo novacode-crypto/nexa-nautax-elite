@@ -469,7 +469,7 @@ export function useDashboardData(): DashboardData {
     }
     setLoadingTimeRemaining(true);
     try {
-      // TODO: cuando SessionManager exponga getTimeRemaining vía messageClient, usarlo.
+      // TODO: getTimeRemaining via messageClient
       // Por ahora calculamos localmente.
       if (session.totalSeconds != null) {
         const elapsed = Math.floor((Date.now() - session.startedAt) / 1000);
@@ -500,7 +500,7 @@ export function useDashboardData(): DashboardData {
     }
     setLoadingBalance(true);
     try {
-      // TODO: implementar SESSION_GET_BALANCE en messageClient + service-worker
+      // TODO: SESSION_GET_BALANCE
       // const r = await messageClient.sessionGetBalance();
       // if (r.ok && r.data) {
       //   const currentAmount = r.data.amount;
@@ -541,7 +541,7 @@ export function useDashboardData(): DashboardData {
     setLoadingStats(true);
     setLoadingWeekly(true);
     try {
-      // TODO: implementar HISTORY_GET_MONTHLY_STATS + HISTORY_GET_WEEKLY_STATS
+      // TODO: HISTORY_GET_MONTHLY_STATS + HISTORY_GET_WEEKLY_STATS
       setMonthlyStats(null);
       setWeeklyStats(null);
     } catch {
@@ -566,7 +566,7 @@ export function useDashboardData(): DashboardData {
     }
     setLoadingRecent(true);
     try {
-      // TODO: implementar HISTORY_GET_RECENT en messageClient + service-worker
+      // TODO: HISTORY_GET_RECENT
       setRecentSessions([]);
     } catch {
       setRecentSessions([]);

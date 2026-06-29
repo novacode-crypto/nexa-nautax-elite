@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — ETECSA Error Catalog (mensajes español → código)
- * Fase 1 — Doc 1 §5 + Fase 4 — Doc 4 §5
+ *  — Doc 1 §5 +  — Doc 4 §5
  *
  * Mapea mensajes de alerta JavaScript de ETECSA a códigos NEXA.
  * Tolerante a typos conocidos de ETECSA (ej: "a realizado" vs "ha realizado").

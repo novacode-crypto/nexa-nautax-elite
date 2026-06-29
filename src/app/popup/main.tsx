@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Popup entry point — v4
+ * NEXA NautaX — Popup entry point 
  */
 
 import { StrictMode, useEffect, useState, type ReactNode } from 'react';

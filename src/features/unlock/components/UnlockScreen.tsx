@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — UnlockScreen — Fase 7 v2
+ * NEXA NautaX — UnlockScreen 
  *
  * Con padding para no ocupar todo el ancho sin márgenes.
  */

@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — SidePanel App
- * Fase 5 — Implementación del Núcleo
+ *  
  *
  * SidePanel con navegación entre 6 secciones:
  * - Dashboard

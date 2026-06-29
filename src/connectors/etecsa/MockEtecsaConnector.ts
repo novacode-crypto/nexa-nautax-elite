@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — MockEtecsaConnector
- * Fase 1 — Doc 2 §11
+ *  — Doc 2 §11
  *
  * Implementación mock de IEtecsaConnector para tests y desarrollo.
  * Permite probar la UI sin necesidad de conexión real a ETECSA.

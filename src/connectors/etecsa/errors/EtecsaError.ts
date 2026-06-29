@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — ETECSA Error
- * Fase 1 — Doc 2 §2.4 + Fase 4 — Doc 4
+ *  — Doc 2 §2.4 +  — Doc 4
  *
  * Catálogo estático + factory para errores del ETECSA connector.
  * Los mensajes en español están mapeados aquí.

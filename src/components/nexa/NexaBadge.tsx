@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — NexaBadge
- * Fase 3 — Doc 3 §2.13
+ *  — Doc 3 §2.13
  */
 
 import { type ReactNode } from 'react';

@@ -1,15 +1,10 @@
 /**
- * NEXA NautaX — Popup App — v10
- *
- * + Botón DEMO para simular conexión
- * + ConnectedView rediseñado más vistoso
- * + Scheduler quick access
- * + Botones pegados encima del footer (no en el footer)
- * + Footer siempre igual (trust badges)
+ * NEXA NautaX — Popup App
+ * Vista principal del popup de la extensión.
  */
 
 import { useState, useEffect } from 'react';
-import { LogIn, LogOut, RefreshCw, Plus, Check, ShieldCheck, Zap, Lock, AlertCircle, LayoutDashboard, FlaskConical, Globe, MapPin, Bell, AlertTriangle, X } from 'lucide-react';
+import { LogIn, LogOut, RefreshCw, Plus, Check, ShieldCheck, Zap, Lock, AlertCircle, LayoutDashboard, FlaskConical, Globe, MapPin, Bell } from 'lucide-react';
 import { PopupLayout } from '@/components/layout/PopupLayout';
 import { NexaButton } from '@/components/nexa/NexaButton';
 import { NexaCard } from '@/components/nexa/NexaCard';
@@ -54,8 +49,6 @@ export function App() {
   const [retryCount, setRetryCount] = useState(0);
   const [retryAccountId, setRetryAccountId] = useState<string | null>(null);
   const [portalStatus, setPortalStatus] = useState<string>('UNKNOWN');
-  const [showTakeControlDialog, setShowTakeControlDialog] = useState(false);
-  const [takingControl, setTakingControl] = useState(false);
 
   const hydrate = useAccountStore((s) => s.hydrate);
   useEffect(() => {
@@ -123,38 +116,6 @@ export function App() {
     } else {
       setView('logged_out');
       setStatus('disconnected');
-    }
-  };
-
-  // Tomar control: hacer login con la cuenta seleccionada para forzar el cierre de la sesión externa
-  const handleTakeControl = async () => {
-    const accounts = useAccountStore.getState().accounts;
-    const selectedId = useAccountStore.getState().selectedId;
-    const target = accounts.find((a) => a.id === selectedId) ?? accounts[0];
-    if (!target) {
-      toast.warning('Selecciona una cuenta para tomar control');
-      return;
-    }
-    setShowTakeControlDialog(false);
-    setTakingControl(true);
-    setView('connecting');
-    setStatus('connecting');
-    setConnectionError(null);
-    setRetryAccountId(target.id);
-    const result = await messageClient.sessionLogin(target.id);
-    setTakingControl(false);
-    if (result.ok) {
-      setActiveSession(result.data);
-      setView('connected');
-      setStatus('connected');
-      setRetryCount(0);
-      toast.success('Control tomado', `Conectado con ${target.alias}`);
-    } else {
-      const newCount = retryCount + 1;
-      setRetryCount(newCount);
-      setConnectionError(result.error.userMessage);
-      setView('error');
-      setStatus('error');
     }
   };
 
@@ -323,80 +284,6 @@ export function App() {
           </div>
         )}
       </div>
-
-      {/* —— Diálogo: Tomar control —— */}
-      {showTakeControlDialog && (
-        <div
-          className="fixed inset-0 flex items-center justify-center p-6"
-          style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.6)', backdropFilter: 'blur(4px)' }}
-          onClick={() => setShowTakeControlDialog(false)}
-        >
-          <div
-            className="w-full max-w-sm rounded-2xl overflow-hidden"
-            style={{
-              backgroundColor: 'var(--bg-elevated-2)',
-              border: '1px solid rgba(245, 158, 11, 0.3)',
-              boxShadow: '0 20px 40px -10px rgba(245, 158, 11, 0.2)',
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Header */}
-            <div
-              className="flex items-center justify-between px-5 py-4 border-b"
-              style={{ borderColor: 'rgba(245, 158, 11, 0.2)' }}
-            >
-              <div className="flex items-center gap-2.5">
-                <AlertTriangle size={18} style={{ color: 'var(--warning)' }} />
-                <h2 className="text-display text-base font-semibold text-foreground">Tomar control</h2>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowTakeControlDialog(false)}
-                className="text-foreground-muted hover:text-foreground transition-colors"
-                aria-label="Cerrar"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            {/* Body */}
-            <div className="px-5 py-4 flex flex-col gap-3">
-              <p className="text-sm text-foreground leading-relaxed">
-                Se cerrará la sesión externa actual y se conectará con tu cuenta{' '}
-                <strong>{useAccountStore.getState().accounts.find((a) => a.id === useAccountStore.getState().selectedId)?.alias ?? useAccountStore.getState().accounts[0]?.alias ?? 'seleccionada'}</strong>.
-              </p>
-              <div
-                className="flex items-start gap-2 p-3 rounded-lg text-xs"
-                style={{
-                  backgroundColor: 'rgba(239, 68, 68, 0.05)',
-                  border: '1px solid rgba(239, 68, 68, 0.15)',
-                  color: 'var(--error)',
-                }}
-              >
-                <AlertTriangle size={14} className="flex-shrink-0 mt-0.5" />
-                <span>
-                  Si el login falla (credenciales incorrectas, saldo insuficiente), la sesión externa ya se habrá cerrado y podrías quedarte sin conexión temporalmente.
-                </span>
-              </div>
-              <div className="flex gap-2.5 pt-2">
-                <NexaButton variant="ghost" fullWidth onClick={() => setShowTakeControlDialog(false)}>
-                  Cancelar
-                </NexaButton>
-                <NexaButton
-                  variant="primary"
-                  fullWidth
-                  glow
-                  loading={takingControl}
-                  onClick={handleTakeControl}
-                  icon={<LogIn size={16} />}
-                >
-                  Tomar control
-                </NexaButton>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </PopupLayout>
   );
 }

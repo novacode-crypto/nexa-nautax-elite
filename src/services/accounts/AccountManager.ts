@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — AccountManager
- * Fase 7 — Implementación real
+ *  
  *
  * CRUD de cuentas Nauta con:
  *  - Cifrado AES-GCM de contraseñas via CryptoService

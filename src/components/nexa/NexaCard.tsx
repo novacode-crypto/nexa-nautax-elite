@@ -1,6 +1,6 @@
 /**
- * NEXA NautaX — NexaCard — Premium edition
- * Fase 3 — Doc 3 §2.3
+ * NEXA NautaX — NexaCard 
+ *  — Doc 3 §2.3
  *
  * Con glassmorphism, shadow coloreada y border gradient.
  */

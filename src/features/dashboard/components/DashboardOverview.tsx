@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — Dashboard Overview (SidePanel) — v7 completo
+ * NEXA NautaX — Dashboard Overview (SidePanel) 
  *
  * Secciones:
  *  1. Status card — estado del portal ETECSA (informativo, sin acciones)

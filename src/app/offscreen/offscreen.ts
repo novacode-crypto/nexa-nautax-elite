@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Offscreen document
- * Fase 2 — F2-D2
+ *  — F2-D2
  *
  * Documento oculto con acceso al DOM. Recibe HTML desde el SW via
  * chrome.runtime.sendMessage y lo parsea con DOMParser.

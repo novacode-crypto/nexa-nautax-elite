@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — CryptoService — v4
+ * NEXA NautaX — CryptoService 
  * Modo Conveniente + restoreKeyFromSession en getState()
  */
 

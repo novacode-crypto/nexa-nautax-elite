@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — NexaIcon
- * Fase 3 — Doc 3 §2.20
+ *  — Doc 3 §2.20
  *
  * Wrapper sobre lucide-react icon con tamaños estandarizados.
  */

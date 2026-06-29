@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — UI Store
- * Fase 2 — Doc 1 §7.2
+ *  — Doc 1 §7.2
  *
  * Estado efímero de UI: navegación, toasts, loading flags.
  * NO se persiste (se pierde al cerrar popup/sidepanel).

@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — SidePanelHeader — Premium edition
+ * NEXA NautaX — SidePanelHeader 
  *
  * Glass effect, logo con gradient text, status pill con icono wifi.
  */

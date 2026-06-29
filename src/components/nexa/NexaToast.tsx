@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — NexaToast
- * Fase 3 — Doc 3 §2.5
+ *  — Doc 3 §2.5
  */
 
 import { type ReactNode } from 'react';

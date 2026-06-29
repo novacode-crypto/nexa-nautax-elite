@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Chrome Storage Driver
- * Fase 4 — Doc 3 §3
+ *  — Doc 3 §3
  *
  * Wrapper tipado sobre chrome.storage.local y chrome.storage.session.
  * Maneja eventos onChanged.

@@ -1,6 +1,6 @@
 /**
- * NEXA NautaX — NexaPasswordInput — Premium edition
- * Fase 3 — Doc 3 §2.12
+ * NEXA NautaX — NexaPasswordInput 
+ *  — Doc 3 §2.12
  *
  * Hereda el glow effect del NexaInput.
  */

@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — ScrapingDomStrategy
- * Fase 1 — Doc 2 §3.3
+ *  — Doc 2 §3.3
  *
  * Si KnownEndpoint y DiscoveredEndpoint fallan en el parseo de respuesta
  * (no encuentran ATTRIBUTE_UUID), esta strategy parsea el HTML con DOMParser

@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Message types
- * Fase 2 — Doc 1 §8
+ *  — Doc 1 §8
  *
  * Discriminated union de todos los mensajes entre UI (popup/sidepanel) y SW.
  * TypeScript garantiza type-safety end-to-end.

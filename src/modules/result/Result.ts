@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — Result<T,E> utilities
- * Fase 2 — F2-D10
+ *  — F2-D10
  *
  * Errores como valores, no como excepciones.
  * Prohibido `throw` en connector layer y services.

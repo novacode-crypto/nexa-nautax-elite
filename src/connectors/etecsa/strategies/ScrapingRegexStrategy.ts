@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — ScrapingRegexStrategy
- * Fase 1 — Doc 2 §3.4
+ *  — Doc 2 §3.4
  *
  * Última línea de defensa automatizada. Si DOMParser no encuentra nada,
  * caemos a regex crudo sobre el HTML con múltiples patterns alternativos.

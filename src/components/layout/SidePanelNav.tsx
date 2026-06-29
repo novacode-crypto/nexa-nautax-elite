@@ -1,7 +1,6 @@
 /**
- * NEXA NautaX — SidePanelNav — Debug v7
- *
- * Tooltips via portal (no se cortan, no quedan debajo del content).
+ * NEXA NautaX — SidePanelNav
+ * Navegación del panel lateral con tooltips via portal.
  * Botón "Acerca de" pegado al footer (mt-auto).
  */
 

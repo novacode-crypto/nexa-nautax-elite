@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — ETECSA Connector Types
- * Fase 1 — Doc 2 §2 + Fase 4 — Doc 1 §3
+ *  — Doc 2 §2 +  — Doc 1 §3
  *
  * Contratos del ETECSA Connector Layer.
  * Único punto de contacto entre NEXA NautaX y ETECSA.
@@ -217,7 +217,7 @@ export const ETECSA_LOGIN_PATH = '/LoginServlet';
 export const ETECSA_LOGOUT_PATH = '/LogoutServlet';
 export const ETECSA_QUERY_PATH = '/EtecsaQueryServlet';
 
-// Doble slash intencional — ETECSA lo requiere (ver Fase 1 — Doc 1 §3.2)
+// Doble slash intencional — ETECSA lo requiere (ver  — Doc 1 §3.2)
 export const ETECSA_LOGIN_URL = `${ETECSA_BASE_URL}//LoginServlet`;
 export const ETECSA_LOGOUT_URL = `${ETECSA_BASE_URL}${ETECSA_LOGOUT_PATH}`;
 export const ETECSA_QUERY_URL = `${ETECSA_BASE_URL}${ETECSA_QUERY_PATH}`;

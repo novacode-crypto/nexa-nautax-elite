@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — HealthReporter
- * Fase 1 — Doc 2 §10 + Fase 4 — Doc 3 §7
+ *  — Doc 2 §10 +  — Doc 3 §7
  *
  * Recibe eventos del connector y mantiene el estado de salud.
  * Lo consume DiagnosticEngine / Developer Mode.

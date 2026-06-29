@@ -1,11 +1,5 @@
 /**
- * NEXA NautaX — PopupLayout — Debug v5
- *
- * Cambios v5:
- * - overflow: hidden en el contenedor (no visible — eso rompía la altura)
- * - Header y footer con z-index alto
- * - Content con overflow-y auto y overflow-x hidden (los dropdowns via portal no se cortan)
- * - Sin espacio blanco debajo del footer
+ * NEXA NautaX — PopupLayout
  */
 
 import { type ReactNode } from 'react';

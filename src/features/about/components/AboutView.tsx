@@ -1,5 +1,5 @@
 /**
- * NEXA NautaX — About View — Premium edition
+ * NEXA NautaX — About View 
  *
  * Vista "Acerca de" vistosa y profesional con:
  *  - Hero con logo grande + glow
@@ -184,9 +184,9 @@ export function AboutView() {
             <h2 className="text-display text-base font-semibold text-foreground">Enlaces</h2>
           </div>
           <div className="flex flex-col gap-1">
-            <LinkRow Icon={FileText} label="Política de privacidad" hint="Cómo se manejan tus datos" href="https://github.com/tu-usuario/nexa-nautax-elite/blob/main/PRIVACY.md" />
-            <LinkRow Icon={Github} label="Código fuente" hint="Repositorio en GitHub" href="https://github.com/tu-usuario/nexa-nautax-elite" />
-            <LinkRow Icon={Mail} label="Soporte" hint="Reporta bugs o pide funciones" href="https://github.com/tu-usuario/nexa-nautax-elite/issues" />
+            <LinkRow Icon={FileText} label="Política de privacidad" hint="Cómo se manejan tus datos" href="https://github.com/novacode-crypto/nexa-nautax-elite/blob/main/PRIVACY.md" />
+            <LinkRow Icon={Github} label="Código fuente" hint="Repositorio en GitHub" href="https://github.com/novacode-crypto/nexa-nautax-elite" />
+            <LinkRow Icon={Mail} label="Soporte" hint="Reporta bugs o pide funciones" href="https://github.com/novacode-crypto/nexa-nautax-elite/issues" />
           </div>
         </NexaCard>
       </StaggerItem>

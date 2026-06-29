@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — OffscreenBridge
- * Fase 2 — F2-D2
+ *  — F2-D2
  *
  * El SW de MV3 no tiene DOMParser. Para parsear HTML de ETECSA,
  * delegamos al offscreen document via chrome.runtime.sendMessage.

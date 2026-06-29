@@ -1,6 +1,6 @@
 /**
  * NEXA NautaX — NexaSpinner
- * Fase 3 — Doc 3 §2.7
+ *  — Doc 3 §2.7
  */
 
 import { cn } from '@/utils/cn';
