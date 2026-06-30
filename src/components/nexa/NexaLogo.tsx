@@ -100,7 +100,7 @@ function EliteBadge({ size }: { readonly size: NonNullable<NexaLogoProps['size']
       }}
       title="Edición ELITE"
     >
-      Elite
+      ELITE
     </span>
   );
 }

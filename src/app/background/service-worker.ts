@@ -9,6 +9,7 @@ import { STORAGE_KEYS } from '@/storage/namespaces';
 import { cryptoService } from '@/services/crypto/CryptoService';
 import { accountManager } from '@/services/accounts/AccountManager';
 import { sessionManager } from '@/services/session/SessionManager';
+import { historyRepository } from '@/storage/repositories/HistoryRepository';
 import { getOffscreenBridge } from '@/connectors/etecsa/parsing/OffscreenBridge';
 import { setIconState, notify, clearBadge } from '@/services/notification/NotificationHelper';
 import type { ExtensionMessage, ExtensionResponse } from '@/modules/messaging/messages.types';
@@ -231,6 +232,66 @@ async function handleMessage(msg: ExtensionMessage): Promise<ExtensionResponse> 
       case 'SESSION_GET_STATE': {
         const session = await sessionManager.getActiveSession();
         return { ok: true, data: session };
+      }
+
+      case 'SESSION_GET_TIME_REMAINING': {
+        try {
+          const timeStr = await sessionManager.getTimeRemaining();
+          if (timeStr) {
+            // Parsear "HH:MM:SS" a segundos
+            const parts = timeStr.split(':');
+            const seconds = (parseInt(parts[0]!) * 3600) + (parseInt(parts[1]!) * 60) + parseInt(parts[2]!);
+            return { ok: true, data: { seconds, formatted: timeStr } };
+          }
+          return { ok: true, data: null };
+        } catch (e) {
+          return { ok: true, data: null };
+        }
+      }
+
+      case 'SESSION_GET_BALANCE': {
+        try {
+          await ensureUnlocked();
+          console.log('[NEXA] getBalance: starting...');
+          const balance = await sessionManager.getBalance();
+          console.log('[NEXA] getBalance: result =', balance);
+          if (balance) {
+            return { ok: true, data: balance };
+          }
+          return { ok: true, data: null };
+        } catch (e) {
+          console.error('[NEXA] getBalance: error =', e);
+          return { ok: true, data: null };
+        }
+      }
+
+      case 'HISTORY_GET_RECENT': {
+        try {
+          const limit = msg.limit ?? 25;
+          await historyRepository.deduplicate();
+          const entries = await historyRepository.getRecent(limit);
+          return { ok: true, data: entries };
+        } catch {
+          return { ok: true, data: [] };
+        }
+      }
+
+      case 'HISTORY_GET_MONTHLY_STATS': {
+        try {
+          const stats = await historyRepository.getMonthlyStats();
+          return { ok: true, data: stats };
+        } catch {
+          return { ok: true, data: null };
+        }
+      }
+
+      case 'HISTORY_GET_WEEKLY_STATS': {
+        try {
+          const stats = await historyRepository.getWeeklyStats();
+          return { ok: true, data: stats };
+        } catch {
+          return { ok: true, data: null };
+        }
       }
 
       case 'CONNECTION_PROBE': {

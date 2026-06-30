@@ -42,6 +42,7 @@ export interface MonthlyStats {
 
 export interface DaySessionDetail {
   readonly alias: string;
+  readonly avatar?: string | undefined;
   readonly startTime: string; // "14:32"
   readonly duration: string;  // "1h 23m"
   readonly consumed: string;  // "$2.50"
@@ -400,6 +401,9 @@ export function useDashboardData(): DashboardData {
   // Tiempo restante
   const [timeRemainingSeconds, setTimeRemainingSeconds] = useState<number | null>(null);
   const [loadingTimeRemaining, setLoadingTimeRemaining] = useState(false);
+  // Refs para sincronizar el cronómetro local cuando ETECSA responde
+  const syncedTotalSecondsRef = useRef<number | null>(null);
+  const loadingTimeRemainingRef = useRef(false);
 
   // Saldo
   const [balance, setBalance] = useState<BalanceInfo | null>(null);
@@ -468,10 +472,18 @@ export function useDashboardData(): DashboardData {
       return;
     }
     setLoadingTimeRemaining(true);
+    loadingTimeRemainingRef.current = true;
     try {
-      // TODO: getTimeRemaining via messageClient
-      // Por ahora calculamos localmente.
-      if (session.totalSeconds != null) {
+      const r = await messageClient.sessionGetTimeRemaining();
+      if (r.ok && r.data) {
+        // ETECSA respondió con tiempo real → sincronizar
+        setTimeRemainingSeconds(r.data.seconds);
+        // Actualizar el ref para que el cronómetro local siga desde aquí
+        syncedTotalSecondsRef.current = r.data.seconds + Math.floor((Date.now() - session.startedAt) / 1000);
+      } else if (syncedTotalSecondsRef.current != null) {
+        const elapsed = Math.floor((Date.now() - session.startedAt) / 1000);
+        setTimeRemainingSeconds(Math.max(0, syncedTotalSecondsRef.current - elapsed));
+      } else if (session.totalSeconds != null) {
         const elapsed = Math.floor((Date.now() - session.startedAt) / 1000);
         setTimeRemainingSeconds(Math.max(0, session.totalSeconds - elapsed));
       } else {
@@ -481,13 +493,11 @@ export function useDashboardData(): DashboardData {
       setTimeRemainingSeconds(null);
     } finally {
       setLoadingTimeRemaining(false);
+      loadingTimeRemainingRef.current = false;
     }
   }, [demoMode, session]);
 
   // —— Saldo real ——
-  // SessionManager.getBalance() existe pero no está expuesto vía messageClient.
-  // Por ahora usamos null hasta que se implemente el handler SESSION_GET_BALANCE.
-  // En modo demo, usamos DEMO_BALANCE.
   const refreshBalance = useCallback(async () => {
     if (demoMode) {
       setBalance(DEMO_BALANCE);
@@ -500,24 +510,22 @@ export function useDashboardData(): DashboardData {
     }
     setLoadingBalance(true);
     try {
-      // TODO: SESSION_GET_BALANCE
-      // const r = await messageClient.sessionGetBalance();
-      // if (r.ok && r.data) {
-      //   const currentAmount = r.data.amount;
-      //   if (balanceAtStartRef.current === null) balanceAtStartRef.current = currentAmount;
-      //   const start = balanceAtStartRef.current;
-      //   const diff = currentAmount - start;
-      //   const percent = start > 0 ? (diff / start) * 100 : 0;
-      //   setBalance({
-      //     amount: currentAmount,
-      //     currency: r.data.currency,
-      //     trend: diff > 0.01 ? 'up' : diff < -0.01 ? 'down' : 'stable',
-      //     trendPercent: Math.abs(percent) < 0.1 ? 0 : Math.round(percent * 10) / 10,
-      //   });
-      // } else {
-      //   setBalance(null);
-      // }
-      setBalance(null); // placeholder hasta implementar SESSION_GET_BALANCE
+      const r = await messageClient.sessionGetBalance();
+      if (r.ok && r.data) {
+        const currentAmount = r.data.amount;
+        if (balanceAtStartRef.current === null) balanceAtStartRef.current = currentAmount;
+        const start = balanceAtStartRef.current;
+        const diff = currentAmount - start;
+        const percent = start > 0 ? (diff / start) * 100 : 0;
+        setBalance({
+          amount: currentAmount,
+          currency: r.data.currency,
+          trend: diff > 0.01 ? 'up' : diff < -0.01 ? 'down' : 'stable',
+          trendPercent: Math.abs(percent) < 0.1 ? 0 : Math.round(percent * 10) / 10,
+        });
+      } else {
+        setBalance(null);
+      }
     } catch {
       setBalance(null);
     } finally {
@@ -541,9 +549,58 @@ export function useDashboardData(): DashboardData {
     setLoadingStats(true);
     setLoadingWeekly(true);
     try {
-      // TODO: HISTORY_GET_MONTHLY_STATS + HISTORY_GET_WEEKLY_STATS
-      setMonthlyStats(null);
-      setWeeklyStats(null);
+      const [monthlyR, weeklyR] = await Promise.all([
+        messageClient.historyGetMonthlyStats(),
+        messageClient.historyGetWeeklyStats(),
+      ]);
+      if (monthlyR.ok && monthlyR.data) {
+        const h = Math.floor(monthlyR.data.totalSeconds / 3600);
+        const m = Math.floor((monthlyR.data.totalSeconds % 3600) / 60);
+        setMonthlyStats({
+          sessionsCount: monthlyR.data.sessionsCount,
+          totalSeconds: monthlyR.data.totalSeconds,
+          totalTimeFormatted: h > 0 ? `${h}h ${m}m` : `${m}m`,
+          consumedAmount: monthlyR.data.consumedAmount,
+          consumedFormatted: `$${monthlyR.data.consumedAmount.toFixed(2)}`,
+        });
+      } else {
+        setMonthlyStats(null);
+      }
+      if (weeklyR.ok && weeklyR.data) {
+        const dayNamesShort = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+        const dayNamesFull = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const days = weeklyR.data.days.map((d: any) => {
+          const daySessions = (d.sessions || []).map((s: any) => {
+            const startDate = new Date(s.startedAt);
+            const hours = Math.floor(s.durationSeconds / 3600);
+            const mins = Math.floor((s.durationSeconds % 3600) / 60);
+            const dur = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+            return {
+              alias: s.alias,
+              ...(s.avatar ? { avatar: s.avatar } : {}),
+              startTime: startDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+              duration: dur,
+              consumed: `-$${(s.consumed || 0).toFixed(2)}`,
+            };
+          });
+          return {
+            dayIndex: d.dayIndex,
+            dayName: dayNamesShort[d.dayIndex]!,
+            dayNameFull: dayNamesFull[d.dayIndex]!,
+            date: d.date,
+            minutes: d.minutes,
+            sessionsCount: d.sessionsCount,
+            sessions: daySessions,
+          };
+        });
+        setWeeklyStats({
+          days,
+          totalMinutes: weeklyR.data.totalMinutes,
+          maxMinutes: weeklyR.data.maxMinutes,
+        });
+      } else {
+        setWeeklyStats(null);
+      }
     } catch {
       setMonthlyStats(null);
       setWeeklyStats(null);
@@ -566,8 +623,46 @@ export function useDashboardData(): DashboardData {
     }
     setLoadingRecent(true);
     try {
-      // TODO: HISTORY_GET_RECENT
-      setRecentSessions([]);
+      const r = await messageClient.historyGetRecent(25);
+      if (r.ok && r.data) {
+        const sessions = (r.data as any[]).map((h) => {
+          const hours = Math.floor(h.durationSeconds / 3600);
+          const mins = Math.floor((h.durationSeconds % 3600) / 60);
+          const durationFormatted = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+          const endedAt = h.endedAt;
+          const startDate = new Date(h.startedAt);
+          const endDate = new Date(endedAt);
+          const now = new Date();
+          const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+          const yesterdayStart = todayStart - 86400000;
+          let dateLabel = 'Hoy';
+          if (h.startedAt < todayStart && h.startedAt >= yesterdayStart) dateLabel = 'Ayer';
+          else if (h.startedAt < yesterdayStart) dateLabel = startDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+          const timeRange = `${startDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+          return {
+            id: h.id,
+            alias: h.alias,
+            username: h.username,
+            domain: h.domain,
+            ...(h.avatar ? { avatar: h.avatar } : {}),
+            startedAt: h.startedAt,
+            endedAt,
+            durationSeconds: h.durationSeconds,
+            durationFormatted,
+            balanceStart: h.balanceStart,
+            balanceEnd: h.balanceEnd,
+            consumed: h.consumed,
+            consumedFormatted: `-$${h.consumed.toFixed(2)}`,
+            status: h.status,
+            ...(h.statusReason ? { statusReason: h.statusReason } : {}),
+            timeRange,
+            dateLabel,
+          };
+        });
+        setRecentSessions(sessions);
+      } else {
+        setRecentSessions([]);
+      }
     } catch {
       setRecentSessions([]);
     } finally {
@@ -658,12 +753,53 @@ export function useDashboardData(): DashboardData {
     return () => clearInterval(interval);
   }, [demoMode, refreshPortal]);
 
-  // —— Auto-refresh de tiempo restante cada 1s (para el cronómetro) ——
+  // —— Cronómetro local cada 1s (calcula elapsed, NO consulta ETECSA) ——
+  // Usa refs para evitar recrear el interval en cada cambio de loading
   useEffect(() => {
     if (!session && !demoMode) return;
     const interval = setInterval(() => {
-      void refreshTimeRemaining();
+      if (loadingTimeRemainingRef.current) return;
+      if (demoMode) {
+        if (DEMO_SESSION.totalSeconds && DEMO_SESSION.startedAt) {
+          const elapsed = Math.floor((Date.now() - DEMO_SESSION.startedAt) / 1000);
+          setTimeRemainingSeconds(Math.max(0, DEMO_SESSION.totalSeconds - elapsed));
+        }
+        return;
+      }
+      // Usar syncedTotalSecondsRef si está disponible, si no session.totalSeconds
+      const totalSecs = syncedTotalSecondsRef.current ?? session?.totalSeconds ?? null;
+      if (totalSecs != null && session) {
+        const elapsed = Math.floor((Date.now() - session.startedAt) / 1000);
+        setTimeRemainingSeconds(Math.max(0, totalSecs - elapsed));
+      }
     }, 1000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session, demoMode]);
+
+  // —— Escuchar cambios en SESSION_ACTIVE para sincronizar totalSeconds ——
+  // Cuando getTimeRemaining guarda el nuevo totalSeconds en storage,
+  // este effect lo detecta y actualiza el ref
+  useEffect(() => {
+    const handler = (changes: { [key: string]: chrome.storage.StorageChange }, area: string) => {
+      if (area !== 'local') return;
+      if (STORAGE_KEYS.SESSION_ACTIVE in changes) {
+        const change = changes[STORAGE_KEYS.SESSION_ACTIVE];
+        if (change?.newValue?.totalSeconds != null) {
+          syncedTotalSecondsRef.current = change.newValue.totalSeconds;
+        }
+      }
+    };
+    chrome.storage.onChanged.addListener(handler);
+    return () => chrome.storage.onChanged.removeListener(handler);
+  }, []);
+
+  // —— Auto-refresh de tiempo restante desde ETECSA cada 60s ——
+  useEffect(() => {
+    if (!session || demoMode) return;
+    const interval = setInterval(() => {
+      void refreshTimeRemaining();
+    }, 60_000);
     return () => clearInterval(interval);
   }, [session, demoMode, refreshTimeRemaining]);
 

@@ -14,6 +14,7 @@ import { getStorageDriver } from '@/storage/driver/chromeStorageDriver';
 import { accountManager } from '@/services/accounts/AccountManager';
 import { cryptoService } from '@/services/crypto/CryptoService';
 import { getEtecsaConnector } from '@/connectors/etecsa';
+import { historyRepository } from '@/storage/repositories/HistoryRepository';
 import type { SessionData } from '@/connectors/etecsa/contracts/types';
 
 
@@ -98,10 +99,56 @@ class SessionManagerImpl {
       return;
     }
 
+    const session = this.activeSession;
     const connector = getEtecsaConnector();
-    await connector.logout(this.activeSession.sessionData);
 
-    // Incluso si falla el logout HTTP, limpiar estado local
+    // Intentar logout HTTP (no bloquear si falla)
+    let status: 'completed' | 'interrupted' | 'error' = 'completed';
+    let statusReason: string | undefined;
+
+    try {
+      await connector.logout(session.sessionData);
+    } catch (e) {
+      status = 'error';
+      statusReason = e instanceof Error ? e.message : 'Error al cerrar sesión en ETECSA';
+    }
+
+    // Guardar en historial
+    try {
+      const endedAt = Date.now();
+      const durationSeconds = Math.floor((endedAt - session.startedAt) / 1000);
+
+      // Intentar obtener saldo final
+      let balanceEnd = 0;
+      try {
+        const balanceResult = await connector.getBalance(session.sessionData, session.accountId as never);
+        if (balanceResult.ok) {
+          balanceEnd = balanceResult.value.amount;
+        }
+      } catch {
+        // Si falla, asumir 0
+      }
+
+      await historyRepository.add({
+        accountId: session.accountId,
+        alias: session.alias,
+        username: session.username,
+        domain: session.domain,
+        ...(session.avatar ? { avatar: session.avatar } : {}),
+        startedAt: session.startedAt,
+        endedAt,
+        durationSeconds,
+        balanceStart: 0, // No tracking de saldo inicial por ahora
+        balanceEnd,
+        consumed: 0,
+        status,
+        ...(statusReason ? { statusReason } : {}),
+      });
+    } catch {
+      // Si falla el historial, no bloquear el logout
+    }
+
+    // Limpiar estado local
     this.activeSession = null;
     const driver = getStorageDriver();
     await driver.removeLocal(STORAGE_KEYS.SESSION_ACTIVE);
@@ -127,6 +174,13 @@ class SessionManagerImpl {
     if (!result.ok) return null;
 
     const totalSeconds = Math.floor(result.value.remaining.ms / 1000);
+
+    // Guardar totalSeconds actualizado en storage para que popup y sidebar se sincronicen
+    const updatedSession = { ...session, totalSeconds };
+    this.activeSession = updatedSession;
+    const driver = getStorageDriver();
+    await driver.setLocal(STORAGE_KEYS.SESSION_ACTIVE, updatedSession);
+
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
@@ -137,14 +191,98 @@ class SessionManagerImpl {
     const session = await this.getActiveSession();
     if (!session) return null;
 
-    const connector = getEtecsaConnector();
-    const result = await connector.getBalance(session.sessionData, session.accountId as never);
-    if (!result.ok) return null;
+    // Leer cookies de ETECSA con chrome.cookies API
+    let cookieHeader = '';
+    try {
+      const cookies = await chrome.cookies.getAll({ url: 'https://secure.etecsa.net:8443' });
+      cookieHeader = cookies.map((c) => `${c.name}=${c.value}`).join('; ');
+      console.log('[NEXA] getBalance: cookies found =', cookies.length, cookieHeader.slice(0, 100));
+    } catch (e) {
+      console.error('[NEXA] getBalance: cannot read cookies:', e);
+      return null;
+    }
 
-    return {
-      amount: result.value.amount,
-      currency: result.value.currency,
-    };
+    if (!cookieHeader) {
+      console.log('[NEXA] getBalance: no cookies found');
+      return null;
+    }
+
+    // GET a la página principal con cookies manuales
+    try {
+      const response = await fetch('https://secure.etecsa.net:8443/', {
+        method: 'GET',
+        headers: {
+          'Cookie': cookieHeader,
+        },
+        credentials: 'omit', // No usar cookies del browser, usar las manuales
+      });
+
+      if (!response.ok) {
+        console.error('[NEXA] getBalance: HTTP error:', response.status);
+        return null;
+      }
+
+      const html = await response.text();
+      console.log('[NEXA] getBalance: HTML length =', html.length);
+      console.log('[NEXA] getBalance: HTML preview =', html.slice(0, 1000));
+
+      // Si contiene formulario de login, no hay sesión
+      if (html.includes('formulario') || html.includes('CSRFHW')) {
+        console.log('[NEXA] getBalance: page contains login form');
+        return null;
+      }
+
+      // Parsear saldo del HTML
+      let amount = 0;
+
+      // Patrón 1: "Saldo" seguido de números
+      const match1 = html.match(/saldo[^0-9<>]*([\d]+[.,]?\d*)/i);
+      if (match1) {
+        amount = parseFloat(match1[1]!.replace(',', '.'));
+        console.log('[NEXA] getBalance: found via pattern 1:', amount);
+      }
+
+      // Patrón 2: números seguidos de CUP
+      if (amount === 0) {
+        const match2 = html.match(/([\d]+[.,]?\d*)\s*(?:CUP|cup)/i);
+        if (match2) {
+          amount = parseFloat(match2[1]!.replace(',', '.'));
+          console.log('[NEXA] getBalance: found via pattern 2:', amount);
+        }
+      }
+
+      // Patrón 3: buscar en tablas con class saldo/balance/monto
+      if (amount === 0) {
+        const match3 = html.match(/(?:class=["'][^"']*(?:saldo|balance|monto)[^"']*["'][^>]*)>\s*([^<]*[\d]+)/i);
+        if (match3 && match3[1]) {
+          const numMatch = match3[1].match(/([\d]+[.,]?\d*)/);
+          if (numMatch && numMatch[1]) {
+            amount = parseFloat(numMatch[1].replace(',', '.'));
+            console.log('[NEXA] getBalance: found via pattern 3:', amount);
+          }
+        }
+      }
+
+      // Patrón 4: cualquier número decimal XX.XX
+      if (amount === 0) {
+        const match4 = html.match(/([\d]+\.\d{2})/);
+        if (match4) {
+          amount = parseFloat(match4[1]!);
+          console.log('[NEXA] getBalance: found via pattern 4:', amount);
+        }
+      }
+
+      console.log('[NEXA] getBalance: final amount =', amount);
+
+      if (amount > 0) {
+        return { amount, currency: 'CUP' };
+      }
+
+      return null;
+    } catch (e) {
+      console.error('[NEXA] getBalance: fetch error:', e);
+      return null;
+    }
   }
 
   // —— Probe ————————————————————————————————————————————————

@@ -51,6 +51,13 @@ export const messageClient = {
   sessionLogin: (accountId: string) => sendMessage<SessionSummary>({ type: 'SESSION_LOGIN', accountId: accountId as never }),
   sessionLogout: () => sendMessage({ type: 'SESSION_LOGOUT' }),
   sessionGetState: () => sendMessage<SessionSummary | null>({ type: 'SESSION_GET_STATE' }),
+  sessionGetTimeRemaining: () => sendMessage<{ seconds: number; formatted: string } | null>({ type: 'SESSION_GET_TIME_REMAINING' }),
+  sessionGetBalance: () => sendMessage<{ amount: number; currency: string } | null>({ type: 'SESSION_GET_BALANCE' }),
+
+  // History
+  historyGetRecent: (limit: number = 25) => sendMessage<readonly unknown[]>({ type: 'HISTORY_GET_RECENT', limit }),
+  historyGetMonthlyStats: () => sendMessage<{ sessionsCount: number; totalSeconds: number; consumedAmount: number } | null>({ type: 'HISTORY_GET_MONTHLY_STATS' }),
+  historyGetWeeklyStats: () => sendMessage<{ days: readonly unknown[]; totalMinutes: number; maxMinutes: number } | null>({ type: 'HISTORY_GET_WEEKLY_STATS' }),
 
   // Connection
   connectionProbe: () => sendMessage<{ state: string }>({ type: 'CONNECTION_PROBE' }),

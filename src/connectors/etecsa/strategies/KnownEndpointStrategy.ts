@@ -15,7 +15,7 @@
 
 import { Strategy } from './Strategy';
 import type { StrategyContext } from './Strategy';
-import type { EtecsaError, LoginRequest, LoginResponse, PortalStatus, SessionData, TimeRemainingResponse } from '../contracts/types';
+import type { EtecsaError, LoginRequest, LoginResponse, PortalStatus, SessionData, SessionInfoResponse, TimeRemainingResponse } from '../contracts/types';
 import type { Result } from '@/modules/result/Result';
 import { err, ok } from '@/modules/result/Result';
 import { asAccountId, asCsrfToken, asWlanUserIp } from '@/types/branded';
@@ -296,6 +296,83 @@ export class KnownEndpointStrategy extends Strategy {
     }
 
     return ok({ body: result.value.body, timing: result.value.timing });
+  }
+
+  // —— getSessionInfo: consulta saldo via GET al portal ——
+  // Cuando hay sesión activa, GET a secure.etecsa.net:8443/ muestra
+  // la página con información de la cuenta incluyendo saldo.
+  async getSessionInfo(
+    ctx: StrategyContext,
+    session: SessionData,
+  ): Promise<Result<SessionInfoResponse, EtecsaError>> {
+    // GET a la página principal del portal — cuando hay sesión activa,
+    // ETECSA muestra info de la cuenta en vez del formulario de login
+    const result = await ctx.httpClient.request({
+      url: ETECSA_BASE_URL + '/',
+      method: 'GET',
+      timeoutMs: PORTAL_TIMEOUT_MS,
+    });
+
+    if (!result.ok) {
+      ctx.healthReporter.markFailure('balance', this.name, result.error);
+      return err(result.error);
+    }
+
+    const html = result.value.body;
+
+    // Si la página contiene el formulario de login, no hay sesión activa
+    if (html.includes('formulario') || html.includes('CSRFHW')) {
+      return ok({
+        session,
+        balance: {
+          accountId: session.accountId,
+          amount: 0,
+          currency: 'CUP' as const,
+          lastUpdated: Date.now(),
+          expiresAt: null,
+        },
+      });
+    }
+
+    // Parsear saldo del HTML
+    // ETECSA muestra el saldo en varios formatos posibles:
+    // "Saldo: 25.50", "saldo disponible: 25.50 CUP", etc.
+    let amount = 0;
+
+    // Patrón 1: "Saldo" seguido de números
+    const match1 = html.match(/saldo[^0-9<>]*([\d]+[.,]?\d*)/i);
+    if (match1) {
+      amount = parseFloat(match1[1]!.replace(',', '.'));
+    }
+
+    // Patrón 2: buscar números con formato de moneda cerca de "CUP"
+    if (amount === 0) {
+      const match2 = html.match(/([\d]+[.,]?\d*)\s*(?:CUP|cup)/i);
+      if (match2) {
+        amount = parseFloat(match2[1]!.replace(',', '.'));
+      }
+    }
+
+    // Patrón 3: buscar en atributos data o value de inputs
+    if (amount === 0) {
+      const match3 = html.match(/(?:value|data-value|data-balance)[=:]["']?\s*([\d]+[.,]?\d*)/i);
+      if (match3) {
+        amount = parseFloat(match3[1]!.replace(',', '.'));
+      }
+    }
+
+    ctx.healthReporter.markSuccess('balance', this.name, result.value.timing);
+
+    return ok({
+      session,
+      balance: {
+        accountId: session.accountId,
+        amount,
+        currency: 'CUP' as const,
+        lastUpdated: Date.now(),
+        expiresAt: null,
+      },
+    });
   }
 }
 

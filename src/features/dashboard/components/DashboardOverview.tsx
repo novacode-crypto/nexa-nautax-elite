@@ -539,7 +539,7 @@ export function DashboardOverview() {
             {filteredRecent.length > 0 ? (
               <div
                 className="flex flex-col gap-1.5 overflow-y-auto"
-                style={{ maxHeight: '400px', scrollbarWidth: 'thin', paddingRight: '4px' }}
+                style={{ maxHeight: '240px', scrollbarWidth: 'thin', paddingRight: '4px' }}
               >
                 {filteredRecent.map((s) => (
                   <RecentSessionRow
@@ -1126,7 +1126,10 @@ function BalanceCard({ balance, loading, onRefresh }: BalanceCardProps) {
           <span className="text-xs text-foreground-muted ml-1 font-medium">{balance!.currency}</span>
         </p>
       ) : (
-        <p className="text-display text-xl font-bold tracking-tight text-foreground-muted">—</p>
+        <div>
+          <p className="text-display text-xl font-bold tracking-tight text-foreground-muted">—</p>
+          <p className="text-[9px] text-foreground-subtle mt-0.5">No disponible</p>
+        </div>
       )}
       {isLow && (
         <p className="text-[10px] mt-0.5" style={{ color: 'var(--error)' }}>Saldo bajo</p>
@@ -1285,6 +1288,45 @@ interface SessionDetailModalProps {
 }
 
 function SessionDetailModal({ session, onClose }: SessionDetailModalProps) {
+  const [realVisitedUrls, setRealVisitedUrls] = useState<VisitedUrl[]>([]);
+
+  // Consultar URLs visitadas de chrome.history cuando se abre el modal
+  useEffect(() => {
+    if (!session) return;
+    if (session.visitedUrls && session.visitedUrls.length > 0) {
+      setRealVisitedUrls([...session.visitedUrls]);
+      return;
+    }
+    // Modo real: consultar chrome.history
+    void (async () => {
+      try {
+        const items = await chrome.history.search({
+          startTime: session.startedAt,
+          endTime: session.endedAt,
+          maxResults: 100,
+          text: '',
+        });
+        const urls: VisitedUrl[] = items
+          .filter((item) => item.url && !item.url.startsWith('chrome://') && !item.url.startsWith('chrome-extension://'))
+          .map((item) => {
+            let domain = '';
+            try { domain = new URL(item.url!).hostname; } catch { domain = item.url ?? ''; }
+            return {
+              url: item.url ?? '',
+              title: item.title ?? domain,
+              domain,
+              visitTime: item.lastVisitTime ?? session.startedAt,
+              visitTimeFormatted: new Date(item.lastVisitTime ?? session.startedAt).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+            };
+          })
+          .sort((a, b) => b.visitTime - a.visitTime);
+        setRealVisitedUrls(urls);
+      } catch {
+        setRealVisitedUrls([]);
+      }
+    })();
+  }, [session]);
+
   if (!session) return null;
 
   const statusConfig = {
@@ -1455,14 +1497,14 @@ function SessionDetailModal({ session, onClose }: SessionDetailModalProps) {
           </div>
 
           {/* Sitios visitados */}
-          {session.visitedUrls && session.visitedUrls.length > 0 && (
+          {realVisitedUrls.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-2">
                 <p className="text-[10px] uppercase tracking-widest text-foreground-subtle font-medium">
                   Sitios visitados
                 </p>
                 <span className="text-[10px] text-foreground-subtle font-mono">
-                  {session.visitedUrls.length} {session.visitedUrls.length === 1 ? 'sitio' : 'sitios'}
+                  {realVisitedUrls.length} {realVisitedUrls.length === 1 ? 'sitio' : 'sitios'}
                 </span>
               </div>
               <div
@@ -1472,7 +1514,7 @@ function SessionDetailModal({ session, onClose }: SessionDetailModalProps) {
                   scrollbarWidth: 'thin',
                 }}
               >
-                {session.visitedUrls.map((v, idx) => (
+                {realVisitedUrls.map((v, idx) => (
                   <VisitedUrlRow key={idx} url={v} />
                 ))}
               </div>
@@ -1839,15 +1881,16 @@ function DayDetailModal({ day, onClose }: DayDetailModalProps) {
                     className="flex items-center gap-3 p-2.5 rounded-lg"
                     style={{ backgroundColor: 'var(--background-glass)', border: '1px solid var(--border-subtle)' }}
                   >
-                    <div
-                      className="flex items-center justify-center h-8 w-8 rounded-full text-xs font-bold flex-shrink-0"
-                      style={{
-                        background: 'var(--primary-gradient)',
-                        color: 'var(--primary-foreground)',
-                      }}
-                    >
-                      {s.alias.charAt(0).toUpperCase()}
-                    </div>
+                    {s.avatar ? (
+                      <img src={s.avatar} alt={s.alias} className="h-8 w-8 rounded-full object-cover flex-shrink-0" style={{ border: '1px solid var(--border)' }} />
+                    ) : (
+                      <div
+                        className="flex items-center justify-center h-8 w-8 rounded-full text-xs font-bold flex-shrink-0"
+                        style={{ background: 'var(--primary-gradient)', color: 'var(--primary-foreground)' }}
+                      >
+                        {s.alias.charAt(0).toUpperCase()}
+                      </div>
+                    )}
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium text-foreground truncate">{s.alias}</p>
                       <p className="text-[10px] text-foreground-muted">

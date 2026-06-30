@@ -18,6 +18,11 @@ export type ExtensionMessage =
   | { readonly type: 'SESSION_LOGOUT' }
   | { readonly type: 'SESSION_REFRESH' }
   | { readonly type: 'SESSION_GET_STATE' }
+  | { readonly type: 'SESSION_GET_TIME_REMAINING' }
+  | { readonly type: 'SESSION_GET_BALANCE' }
+  | { readonly type: 'HISTORY_GET_RECENT'; readonly limit?: number }
+  | { readonly type: 'HISTORY_GET_MONTHLY_STATS' }
+  | { readonly type: 'HISTORY_GET_WEEKLY_STATS' }
   // —— Cuentas ——
   | { readonly type: 'ACCOUNT_LIST' }
   | { readonly type: 'ACCOUNT_GET'; readonly accountId: AccountId }

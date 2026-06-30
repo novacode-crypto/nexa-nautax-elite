@@ -3,7 +3,7 @@
  * Vista principal del popup de la extensión.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { LogIn, LogOut, RefreshCw, Plus, Check, ShieldCheck, Zap, Lock, AlertCircle, LayoutDashboard, FlaskConical, Globe, MapPin, Bell } from 'lucide-react';
 import { PopupLayout } from '@/components/layout/PopupLayout';
 import { NexaButton } from '@/components/nexa/NexaButton';
@@ -26,7 +26,6 @@ import type { PopupView } from '@/store/uiStore';
 import { useAccountStore } from '@/store/accountStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { messageClient } from '@/modules/messaging/messageClient';
-import { useSessionTimer } from '@/hooks/useSessionTimer';
 
 interface SessionInfo {
   alias: string;
@@ -529,8 +528,70 @@ function ConnectedView({
   readonly onSchedule: (minutes: number) => void;
   readonly onCancelSchedule: () => void;
 }) {
-  const timer = useSessionTimer(session.startedAt, session.totalSeconds ?? null);
+  // Usar refs para evitar recrear el interval en cada sync
+  const syncedTotalRef = useRef<number | null>(session.totalSeconds ?? null);
+  const syncingRef = useRef(false);
+  const [displaySeconds, setDisplaySeconds] = useState<number | null>(null);
+  const [connectedSeconds, setConnectedSeconds] = useState(0);
   const isInternational = session.domain === 'nauta.com.cu';
+
+  // Escuchar cambios en SESSION_ACTIVE para sincronizar totalSeconds
+  // Cuando getTimeRemaining (desde el sidebar o el popup) guarda el nuevo totalSeconds,
+  // este effect lo detecta y actualiza el ref
+  useEffect(() => {
+    const handler = (changes: { [key: string]: chrome.storage.StorageChange }, area: string) => {
+      if (area !== 'local') return;
+      if ('nexa.sessions.active' in changes) {
+        const change = changes['nexa.sessions.active'];
+        if (change?.newValue?.totalSeconds != null) {
+          syncedTotalRef.current = change.newValue.totalSeconds;
+        }
+      }
+    };
+    chrome.storage.onChanged.addListener(handler);
+    return () => chrome.storage.onChanged.removeListener(handler);
+  }, []);
+
+  // Cronómetro local cada 1s — usa refs, NO se recrea
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - session.startedAt) / 1000);
+      setConnectedSeconds(elapsed);
+      if (syncingRef.current) return;
+      const total = syncedTotalRef.current;
+      if (total != null) {
+        setDisplaySeconds(Math.max(0, total - elapsed));
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [session.startedAt]);
+
+  // Sincronizar con ETECSA cada 60s
+  useEffect(() => {
+    const sync = async () => {
+      syncingRef.current = true;
+      try {
+        const r = await messageClient.sessionGetTimeRemaining();
+        if (r.ok && r.data) {
+          const elapsed = Math.floor((Date.now() - session.startedAt) / 1000);
+          syncedTotalRef.current = r.data.seconds + elapsed;
+          setDisplaySeconds(r.data.seconds);
+        }
+      } catch {
+        // ignore
+      } finally {
+        syncingRef.current = false;
+      }
+    };
+    void sync();
+    const interval = setInterval(() => void sync(), 60_000);
+    return () => clearInterval(interval);
+  }, [session.startedAt]);
+
+  // Formatear display
+  const fmtTime = (s: number) => `${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+  const remainingFormatted = displaySeconds !== null ? fmtTime(displaySeconds) : '—';
+  const connectedFormatted = fmtTime(connectedSeconds);
 
   return (
     <>
@@ -551,7 +612,7 @@ function ConnectedView({
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              {timer.remainingFormatted}
+              {remainingFormatted}
             </p>
           </div>
         </NexaCard>
@@ -562,7 +623,7 @@ function ConnectedView({
         <div className="flex items-center gap-3">
           <NexaCard padding="sm" className="flex-shrink-0">
             <p className="text-[9px] uppercase tracking-widest text-foreground-subtle font-medium">Conectado</p>
-            <p className="text-sm font-bold font-mono text-foreground">{timer.connectedFormatted}</p>
+            <p className="text-sm font-bold font-mono text-foreground">{connectedFormatted}</p>
           </NexaCard>
 
           {/* Scheduler como texto link */}

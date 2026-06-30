@@ -33,6 +33,7 @@ export default defineManifest({
     'sidePanel',
     'offscreen',
     'history',
+    'cookies',
   ],
 
   host_permissions: [

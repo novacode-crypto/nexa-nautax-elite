@@ -133,7 +133,9 @@ export function DeveloperView() {
             <DevTabCard Icon={Server} label="Connector" description="Estado del ETECSA" active={activeTab === 'connector'} onClick={() => toggleTab('connector')} />
             <DevTabCard Icon={Activity} label="Network" description="Requests HTTP" active={activeTab === 'network'} onClick={() => toggleTab('network')} />
             <DevTabCard Icon={Database} label="Storage" description="chrome.storage viewer" active={activeTab === 'storage'} onClick={() => toggleTab('storage')} />
-            <DevTabCard Icon={Eye} label="Session" description="Sesión activa" active={activeTab === 'session'} onClick={() => toggleTab('session')} />
+          </div>
+          <div className="mb-3">
+            <DevTabCard Icon={Eye} label="Session Inspector" description="Sesión activa y tokens" active={activeTab === 'session'} onClick={() => toggleTab('session')} fullWidth />
           </div>
 
           {/* Contenido del tab activo */}
@@ -606,26 +608,32 @@ function DevRow({ label, value, variant }: { readonly label: string; readonly va
   );
 }
 
-function DevTabCard({ Icon, label, description, active, onClick }: {
+function DevTabCard({ Icon, label, description, active, onClick, fullWidth }: {
   readonly Icon: typeof Terminal;
   readonly label: string;
   readonly description: string;
   readonly active: boolean;
   readonly onClick: () => void;
+  readonly fullWidth?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="flex flex-col items-start gap-1 p-3 rounded-lg border transition-colors text-left min-w-0"
+      className={cn(
+        'flex items-center gap-3 p-3 rounded-lg border transition-colors text-left min-w-0',
+        fullWidth && 'w-full',
+      )}
       style={{
         borderColor: active ? 'var(--accent)' : 'var(--border)',
         backgroundColor: active ? 'var(--accent-soft)' : 'var(--background-glass)',
       }}
     >
-      <Icon size={18} style={{ color: active ? 'var(--accent)' : 'var(--foreground-muted)' }} />
-      <span className="text-sm font-medium text-foreground truncate w-full">{label}</span>
-      <span className="text-[10px] text-foreground-muted truncate w-full">{description}</span>
+      <Icon size={18} className="flex-shrink-0" style={{ color: active ? 'var(--accent)' : 'var(--foreground-muted)' }} />
+      <div className="min-w-0 flex-1">
+        <span className="text-sm font-medium text-foreground truncate block">{label}</span>
+        <span className="text-[10px] text-foreground-muted truncate block">{description}</span>
+      </div>
     </button>
   );
 }

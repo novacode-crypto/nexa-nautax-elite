@@ -28,6 +28,8 @@ export const STORAGE_KEYS = {
   SESSION_ACTIVE: `${NAMESPACES.sessions}.active`,
   SESSION_CONNECTION: `${NAMESPACES.sessions}.connection`,
   SESSION_LAST_ERROR: `${NAMESPACES.sessions}.lastError`,
+  // History
+  HISTORY: `${NAMESPACES.history}.list`,
   // Settings
   SETTINGS: NAMESPACES.settings,
   // Crypto
